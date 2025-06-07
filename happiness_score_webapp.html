@@ -42,9 +42,8 @@
       if (THD[normalizedWord]) {
         return THD[normalizedWord];
       }
-      // Her iki tarafın da ilk 3 harfi uyuşuyorsa eşleşme kabul edilir
       for (let key in THD) {
-        if (normalizedWord.slice(0, 3) === key.slice(0, 3)) {
+        if (normalizedWord.includes(key) || key.includes(normalizedWord)) {
           return THD[key];
         }
       }

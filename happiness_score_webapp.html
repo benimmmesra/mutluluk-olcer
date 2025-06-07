@@ -58,6 +58,7 @@
       const text = document.getElementById("inputText").value;
       const rawWords = text.split(/[^a-zçğıöşüA-ZÇĞİÖŞÜ]+/);
       const words = rawWords.map(w => normalize(w)).filter(Boolean);
+console.log("THD sözlüğü:", THD);
 
       console.log("Normalize Edilmiş Kelimeler:", words);
 

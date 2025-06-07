@@ -35,16 +35,16 @@
       });
 
     function normalize(word) {
-      return word.toLowerCase().replace(/[^a-zçğıöşü\s]/gi, "").trim();
+      return word.toLowerCase().replace(/[^a-zçğıöşü]/gi, "").trim();
     }
 
     function findTHDScore(normalizedWord) {
       if (THD[normalizedWord]) {
         return THD[normalizedWord];
       }
-      // Kök eşleşmesi: İlk 3 harfi aynı olan ilk eşleşmeyi al
+      // Her iki tarafın da ilk 3 harfi uyuşuyorsa eşleşme kabul edilir
       for (let key in THD) {
-        if (normalizedWord.startsWith(key.slice(0, 3))) {
+        if (normalizedWord.slice(0, 3) === key.slice(0, 3)) {
           return THD[key];
         }
       }
@@ -53,7 +53,9 @@
 
     function calculateHappiness() {
       const text = document.getElementById("inputText").value;
-      const words = normalize(text).split(/\s+/);
+      const rawWords = text.split(/\s+/);
+      const words = rawWords.map(w => normalize(w)).filter(Boolean);
+
       let scores = words.map(w => findTHDScore(w)).filter(v => v !== undefined);
 
       const resultDiv = document.getElementById("result");

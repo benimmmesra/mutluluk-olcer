@@ -45,10 +45,8 @@
       for (let key in THD) {
         if (
           normalizedWord === key ||
-          normalizedWord.startsWith(key.slice(0, 3)) ||
-          key.startsWith(normalizedWord.slice(0, 3)) ||
-          normalizedWord.includes(key) ||
-          key.includes(normalizedWord)
+          normalizedWord.startsWith(key) ||
+          key.startsWith(normalizedWord)
         ) {
           return THD[key];
         }
@@ -61,7 +59,11 @@
       const rawWords = text.split(/[^a-zçğıöşüA-ZÇĞİÖŞÜ]+/);
       const words = rawWords.map(w => normalize(w)).filter(Boolean);
 
+      console.log("Normalize Edilmiş Kelimeler:", words);
+
       let scores = words.map(w => findTHDScore(w)).filter(v => v !== undefined);
+
+      console.log("Eşleşen Skorlar:", scores);
 
       const resultDiv = document.getElementById("result");
       if (scores.length === 0) {

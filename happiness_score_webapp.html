@@ -46,12 +46,11 @@
         return THD[normalizedWord];
       }
       for (let key in THD) {
-        const keyNorm = normalize(key);
         if (
-          normalizedWord.startsWith(keyNorm.slice(0, 3)) ||
-          keyNorm.startsWith(normalizedWord.slice(0, 3)) ||
-          normalizedWord.includes(keyNorm) ||
-          keyNorm.includes(normalizedWord)
+          normalizedWord.startsWith(key.slice(0, 3)) ||
+          key.startsWith(normalizedWord.slice(0, 3)) ||
+          normalizedWord.includes(key) ||
+          key.includes(normalizedWord)
         ) {
           return THD[key];
         }
@@ -61,7 +60,7 @@
 
     function calculateHappiness() {
       const text = document.getElementById("inputText").value;
-      const rawWords = text.split(/\s+/);
+      const rawWords = text.split(/[^a-zçğıöşüA-ZÇĞİÖŞÜ]+/);
       const words = rawWords.map(w => normalize(w)).filter(Boolean);
 
       let scores = words.map(w => findTHDScore(w)).filter(v => v !== undefined);

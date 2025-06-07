@@ -42,11 +42,9 @@
     }
 
     function findTHDScore(normalizedWord) {
-      if (THD[normalizedWord]) {
-        return THD[normalizedWord];
-      }
       for (let key in THD) {
         if (
+          normalizedWord === key ||
           normalizedWord.startsWith(key.slice(0, 3)) ||
           key.startsWith(normalizedWord.slice(0, 3)) ||
           normalizedWord.includes(key) ||

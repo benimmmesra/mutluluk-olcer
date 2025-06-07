@@ -38,10 +38,23 @@
       return word.toLowerCase().replace(/[^a-zçğıöşü\s]/gi, "").trim();
     }
 
+    function findTHDScore(normalizedWord) {
+      if (THD[normalizedWord]) {
+        return THD[normalizedWord];
+      }
+      // Kök eşleşmesi: İlk 3 harfi aynı olan ilk eşleşmeyi al
+      for (let key in THD) {
+        if (normalizedWord.startsWith(key.slice(0, 3))) {
+          return THD[key];
+        }
+      }
+      return undefined;
+    }
+
     function calculateHappiness() {
       const text = document.getElementById("inputText").value;
       const words = normalize(text).split(/\s+/);
-      let scores = words.map(w => THD[w]).filter(v => v !== undefined);
+      let scores = words.map(w => findTHDScore(w)).filter(v => v !== undefined);
 
       const resultDiv = document.getElementById("result");
       if (scores.length === 0) {

@@ -43,7 +43,13 @@
         return THD[normalizedWord];
       }
       for (let key in THD) {
-        if (normalizedWord.includes(key) || key.includes(normalizedWord)) {
+        const keyNorm = normalize(key);
+        if (
+          normalizedWord.startsWith(keyNorm.slice(0, 3)) ||
+          keyNorm.startsWith(normalizedWord.slice(0, 3)) ||
+          normalizedWord.includes(keyNorm) ||
+          keyNorm.includes(normalizedWord)
+        ) {
           return THD[key];
         }
       }

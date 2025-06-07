@@ -23,19 +23,26 @@
   <div id="result"></div>
 
   <script>
-    let THD = {};
-
-    fetch('turkish_happiness_dict.json')
-      .then(response => response.json())
-      .then(data => {
-        for (let key in data) {
-          const normalizedKey = normalize(key);
-          THD[normalizedKey] = data[key];
-        }
-      })
-      .catch(error => {
-        document.getElementById("result").innerHTML = "Sözlük yüklenemedi: " + error;
-      });
+    let THD = {
+      "aşk": 4.8,
+      "mutlu": 4.7,
+      "mutluluk": 4.6,
+      "sevgi": 4.9,
+      "harika": 5.0,
+      "süper": 4.5,
+      "deniz": 3.8,
+      "yılbaşı": 4.1,
+      "güzel": 4.6,
+      "neşe": 4.9,
+      "şen": 4.3,
+      "bayram": 4.7,
+      "pozitif": 4.4,
+      "tatil": 4.2,
+      "güneş": 4.6,
+      "sevinç": 4.8,
+      "keyif": 4.3,
+      "umut": 4.5
+    };
 
     function normalize(word) {
       return word.toLowerCase().replace(/[^a-zçğıöşü]/gi, "").trim();
@@ -58,14 +65,10 @@
       const text = document.getElementById("inputText").value;
       const rawWords = text.split(/[^a-zçğıöşüA-ZÇĞİÖŞÜ]+/);
       const words = rawWords.map(w => normalize(w)).filter(Boolean);
-console.log("THD sözlüğü:", THD);
-
+      console.log("THD sözlüğü:", THD);
       console.log("Normalize Edilmiş Kelimeler:", words);
-
       let scores = words.map(w => findTHDScore(w)).filter(v => v !== undefined);
-
       console.log("Eşleşen Skorlar:", scores);
-
       const resultDiv = document.getElementById("result");
       if (scores.length === 0) {
         resultDiv.innerHTML = "Metinde tanınan mutluluk kelimesi bulunamadı.";
@@ -76,20 +79,16 @@ console.log("THD sözlüğü:", THD);
       resultDiv.innerHTML = message;
     }
 
-    // Speech-to-Text entegrasyonu
     function startListening() {
       const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       recognition.lang = 'tr-TR';
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
-
       recognition.start();
-
       recognition.onresult = function(event) {
         const transcript = event.results[0][0].transcript;
         document.getElementById("inputText").value = transcript;
       };
-
       recognition.onerror = function(event) {
         alert('Hata oluştu: ' + event.error);
       };
